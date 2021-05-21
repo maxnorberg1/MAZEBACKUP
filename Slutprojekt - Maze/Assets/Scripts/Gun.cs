@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +5,7 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     [SerializeField]
-    [Range(0.5f, 1.5f)]
+    [Range(0.1f, 1.5f)]
     private float fireRate = 1;
 
     [SerializeField]
@@ -20,7 +19,7 @@ public class Gun : MonoBehaviour
     private ParticleSystem muzzleParticle;
 
     private float timer;
-    
+
 
     void Update()
     {
@@ -44,7 +43,8 @@ public class Gun : MonoBehaviour
         Ray ray = new Ray(firePoint.position, firePoint.forward);
         RaycastHit hitInfo;
 
-        if(Physics.Raycast(ray, out hitInfo, 100))
+
+        if (Physics.Raycast(ray, out hitInfo, 100))
         {
             var health = hitInfo.collider.GetComponent<Health>();
             if (health != null)

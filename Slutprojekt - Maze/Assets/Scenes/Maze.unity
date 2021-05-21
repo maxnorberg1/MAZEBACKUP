@@ -171,6 +171,7 @@ MonoBehaviour:
   characterPrefabs:
   - {fileID: 1601476856346810550, guid: 47a51eb74ea15cc47b96c3b3bd5051b9, type: 3}
   - {fileID: 189591772736007005, guid: 6f8238a7af467fe48906c97f75f54285, type: 3}
+  - {fileID: 132888, guid: aa05473e4d04e834eb7a29b53251c8cf, type: 3}
   spawnPoint: {fileID: 1139397952}
 --- !u!1 &488702758
 GameObject:
@@ -297,7 +298,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 90054576c036ea44096d20cc89ff4da2, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

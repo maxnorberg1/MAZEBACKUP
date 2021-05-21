@@ -83,4 +83,5 @@ public class Zombie : MonoBehaviour
         anim.SetBool("isRunning", isRunning);
         anim.SetBool("isWalking", isWalking);
     }
+
 }
