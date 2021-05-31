@@ -17,6 +17,14 @@ public class Zombie : MonoBehaviour
     private bool isWalking;
     private bool isRunning;
 
+    [SerializeField]
+    private int startingHealth = 5;
+
+    private int currentHealth;
+
+    private int destroyTime = 2;
+    private bool zombieAlive = true;
+
     private void Start()
     {
         randomPos = transform.position;
@@ -26,31 +34,66 @@ public class Zombie : MonoBehaviour
         WalkToRandomSpot();
     }
 
+    private void OnEnable()
+    {
+        currentHealth = startingHealth;
+    }
+
+    public void TakeDamage(int damageAmount)
+    {
+        currentHealth -= damageAmount;
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        agent.speed = 0f;
+        zombieAlive = false;
+        anim.SetTrigger("isDead");
+        StartCoroutine(WaitThenDie());
+
+    }
+
+    IEnumerator WaitThenDie()
+    {
+        yield return new WaitForSeconds(destroyTime);
+        Destroy(gameObject);
+    }
+
     private void Update()
     {
-        if(Vector3.Distance(transform.position, target.transform.position) <= 5)
+        if(MapManager.instance.zombiesCanMove && zombieAlive)
         {
-            // Jaga spelaren
-            ChasePlayer();
-        }
-        else if (isRunning)
-        {
-            // Sluta jaga
-            WalkToRandomSpot();
-        }
-
-        if(isWalking)
-        {
-            if(Vector3.Distance(transform.position, randomPos) <= 1)
+            if (Vector3.Distance(transform.position, target.transform.position) <= 5)
             {
+                // Jaga spelaren
+                ChasePlayer();
+            }
+            else if (isRunning)
+            {
+                // Sluta jaga
                 WalkToRandomSpot();
+            }
+
+            if (isWalking)
+            {
+                if (Vector3.Distance(transform.position, randomPos) <= 1)
+                {
+                    WalkToRandomSpot();
+                }
+            }
+
+            if (Vector3.Distance(transform.position, target.transform.position) <= 1)
+            {
+                anim.SetTrigger("attack");
             }
         }
 
-        if(Vector3.Distance(transform.position, target.transform.position) <= 1)
-        {
-            anim.SetTrigger("attack");
-        }
+
     }
 
     private void ChasePlayer()
@@ -67,6 +110,7 @@ public class Zombie : MonoBehaviour
             anim.SetBool("isRunning", isRunning);
             anim.SetBool("isWalking", isWalking);
         }
+
     }
 
     private void WalkToRandomSpot()
@@ -82,6 +126,7 @@ public class Zombie : MonoBehaviour
         // Animationer
         anim.SetBool("isRunning", isRunning);
         anim.SetBool("isWalking", isWalking);
+
     }
 
 }

@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
         if(other.CompareTag("Zombie"))
         {
             canMove = false;
+            UIManager.instance.ShowGameOver(false);
             anim.SetTrigger("isDead");
         }
     }

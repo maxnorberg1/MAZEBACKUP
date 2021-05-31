@@ -18,8 +18,17 @@ public class Gun : MonoBehaviour
     [SerializeField]
     private ParticleSystem muzzleParticle;
 
-    private float timer;
+    [SerializeField]
+    private AudioSource gunFireSource;
 
+    private float timer;
+    private bool isShooting;
+    private Animator anim;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     void Update()
     {
@@ -39,6 +48,7 @@ public class Gun : MonoBehaviour
         Debug.DrawRay(firePoint.position, firePoint.forward * 100, Color.red, 2f);
 
         muzzleParticle.Play();
+        gunFireSource.Play();
 
         Ray ray = new Ray(firePoint.position, firePoint.forward);
         RaycastHit hitInfo;
@@ -46,7 +56,7 @@ public class Gun : MonoBehaviour
 
         if (Physics.Raycast(ray, out hitInfo, 100))
         {
-            var health = hitInfo.collider.GetComponent<Health>();
+            var health = hitInfo.collider.GetComponent<Zombie>();
             if (health != null)
                 health.TakeDamage(damage);
         }

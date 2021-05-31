@@ -19,8 +19,17 @@ public class Flamethrower : MonoBehaviour
     [SerializeField]
     private ParticleSystem muzzleParticle;
 
-    private float timer;
+    [SerializeField]
+    private AudioSource gunFireSource;
 
+    private float timer;
+    private bool isShooting;
+    private Animator anim;
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     void Update()
     {
@@ -40,23 +49,21 @@ public class Flamethrower : MonoBehaviour
         Debug.DrawRay(firePoint.position, firePoint.forward * 100, Color.red, 2f);
 
         muzzleParticle.Play();
+        gunFireSource.Play();
 
         Ray ray = new Ray(firePoint.position, firePoint.forward);
         RaycastHit hitInfo;
 
-        float thickness = 1f; //<-- Desired thickness here.
+        float thickness = 2f; //<-- Desired thickness here.
         Vector3 origin = firePoint.position + new Vector3(0, 0.6f, -1.6f);
         Vector3 direction = firePoint.TransformDirection(Vector3.forward);
         if (Physics.SphereCast(ray, thickness, out hitInfo, 100))
         {
-            var health = hitInfo.collider.GetComponent<Health>();
+            var health = hitInfo.collider.GetComponent<Zombie>();
             if (health != null)
                 health.TakeDamage(damage);
         }
+        
 
-        if (Physics.Raycast(ray, out hitInfo, 100))
-        {
-
-        }
     }
 }

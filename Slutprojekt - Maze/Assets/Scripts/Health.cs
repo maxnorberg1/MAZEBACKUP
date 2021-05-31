@@ -10,6 +10,14 @@ public class Health : MonoBehaviour
 
     private int currentHealth;
 
+    private Animator anim;
+
+
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
+
     private void OnEnable()
     {
         currentHealth = startingHealth;
@@ -25,8 +33,8 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
-        gameObject.SetActive(false);
+        anim.SetTrigger("isDead");
     }
 }

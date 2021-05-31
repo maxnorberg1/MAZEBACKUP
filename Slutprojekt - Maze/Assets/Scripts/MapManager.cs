@@ -9,11 +9,15 @@ public class MapManager : MonoBehaviour
     public GameObject gemPrefab;
     public GameObject zombiePrefab;
 
+    public bool zombiesCanMove = true;
+
     private Texture2D selectedMap;
 
     private List<Vector3> openPositions = new List<Vector3>();
 
     private Color wallColor = Color.black;
+
+    private int gemsRemaining;
 
     public static MapManager instance;
 
@@ -79,10 +83,23 @@ public class MapManager : MonoBehaviour
             Instantiate(gemPrefab, openPositions[index], Quaternion.identity);
             openPositions.RemoveAt(index);
         }
+
+        gemsRemaining = 5;
     }
 
     public Vector3 GetRandomPos()
     {
         return openPositions[Random.Range(0, openPositions.Count)];
+    }
+
+    public void GemPickedUp()
+    {
+        gemsRemaining--;
+
+        if (gemsRemaining == 0)
+        {
+            zombiesCanMove = false;
+            UIManager.instance.ShowGameOver(true);
+        }
     }
 }
